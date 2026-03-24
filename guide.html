@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What Can I Query? — Nordic & Benelux Registries</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: system-ui, -apple-system, sans-serif; background: #f5f5f3; color: #1a1a18; padding: 24px; font-size: 13px; line-height: 1.6; }
+h1 { font-size: 19px; font-weight: 600; margin-bottom: 3px; }
+.subtitle { color: #666; font-size: 12px; margin-bottom: 18px; }
+
+/* tabs */
+.tab-row { display: flex; gap: 5px; margin-bottom: 14px; flex-wrap: wrap; }
+.tab { padding: 5px 13px; border-radius: 7px; border: 0.5px solid #ccc; font-size: 12px; cursor: pointer; background: #fff; color: #555; }
+.tab.active { background: #e6f1fb; color: #0c447c; border-color: transparent; font-weight: 600; }
+
+.country { display: none; }
+.country.visible { display: block; }
+
+/* use-case grid */
+.use-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 14px; }
+.use-card { background: #fff; border: 0.5px solid #e0e0de; border-radius: 10px; overflow: hidden; }
+.use-head { padding: 8px 12px; font-size: 11px; font-weight: 700; letter-spacing: 0.2px; }
+.use-head.can  { background: #eaf3de; color: #2d6b0e; }
+.use-head.no   { background: #fcebeb; color: #7a1f1f; }
+.use-head.part { background: #fef3dd; color: #6e3e00; }
+.use-body { padding: 8px 12px; }
+.use-body p { font-size: 11.5px; color: #444; margin-bottom: 5px; }
+.use-body p:last-child { margin-bottom: 0; }
+
+/* query table */
+.qtable { width: 100%; border-collapse: collapse; background: #fff; border: 0.5px solid #e0e0de; border-radius: 10px; overflow: hidden; margin-bottom: 14px; font-size: 12px; }
+.qtable th { background: #f0ede6; padding: 7px 12px; text-align: left; font-weight: 600; border-bottom: 0.5px solid #ddd; font-size: 11px; color: #444; }
+.qtable td { padding: 7px 12px; border-bottom: 0.5px solid #f0f0ee; vertical-align: top; }
+.qtable tr:last-child td { border-bottom: none; }
+.qtable tr:hover td { background: #fafaf8; }
+.yes  { color: #2d6b0e; font-weight: 600; }
+.no   { color: #991f1f; }
+.part { color: #6e3e00; }
+code { background: #f0ede6; border-radius: 4px; padding: 1px 5px; font-family: monospace; font-size: 11px; color: #334155; }
+.eg { font-size: 11px; color: #888; font-style: italic; }
+
+/* code block */
+.code-wrap { background: #f0ede6; border-radius: 8px; padding: 10px 13px; font-family: monospace; font-size: 11px; line-height: 1.85; white-space: pre; overflow-x: auto; margin-bottom: 10px; color: #334155; }
+.cm { color: #888; font-style: italic; }
+.ck { color: #534ab7; }
+.cv { color: #0f6e56; }
+
+/* card */
+.card { background: #fff; border: 0.5px solid #e0e0de; border-radius: 10px; margin-bottom: 12px; overflow: hidden; }
+.card-head { padding: 10px 14px; border-bottom: 0.5px solid #e0e0de; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.card-body { padding: 10px 14px; }
+.card-body p { font-size: 12.5px; color: #555; margin-bottom: 7px; }
+.badge { font-size: 10px; padding: 2px 7px; border-radius: 5px; }
+.badge-g { background: #eaf3de; color: #2d6b0e; }
+.badge-w { background: #fef3dd; color: #6e3e00; }
+.badge-r { background: #fcebeb; color: #7a1f1f; }
+.ct { font-size: 13px; font-weight: 600; }
+.alert { border-radius: 6px; padding: 8px 11px; font-size: 11.5px; margin-bottom: 8px; }
+.ai { background: #e6f1fb; color: #0c447c; }
+.ag { background: #eaf3de; color: #2d6b0e; }
+.aw { background: #fef3dd; color: #6e3e00; }
+
+/* compare matrix */
+.matrix { width: 100%; border-collapse: collapse; background: #fff; border: 0.5px solid #e0e0de; border-radius: 10px; overflow: hidden; font-size: 11.5px; }
+.matrix th { background: #f0ede6; padding: 7px 10px; text-align: center; font-size: 11px; font-weight: 600; border-bottom: 0.5px solid #ddd; }
+.matrix th:first-child { text-align: left; }
+.matrix td { padding: 6px 10px; border-bottom: 0.5px solid #f0f0ee; text-align: center; }
+.matrix td:first-child { text-align: left; font-weight: 500; color: #334155; }
+.matrix tr:last-child td { border-bottom: none; }
+.m-y  { color: #2d6b0e; font-weight: 700; font-size: 14px; }
+.m-n  { color: #ccc; font-size: 14px; }
+.m-p  { color: #e07b00; font-weight: 700; font-size: 13px; }
+.m-na { color: #ddd; font-size: 11px; }
+</style>
+</head>
+<body>
+
+<h1>What Can I Query? — Nordic & Benelux Registries</h1>
+<p class="subtitle">Exact filter parameters, use-cases, and example API calls for each country · March 2026</p>
+
+<div class="tab-row">
+  <button class="tab active" onclick="sw('no',this)">🇳🇴 Norway</button>
+  <button class="tab" onclick="sw('dk',this)">🇩🇰 Denmark</button>
+  <button class="tab" onclick="sw('fi',this)">🇫🇮 Finland</button>
+  <button class="tab" onclick="sw('se',this)">🇸🇪 Sweden</button>
+  <button class="tab" onclick="sw('nl',this)">🇳🇱 Netherlands</button>
+  <button class="tab" onclick="sw('be',this)">🇧🇪 Belgium</button>
+  <button class="tab" onclick="sw('lu',this)">🇱🇺 Luxembourg</button>
+  <button class="tab" onclick="sw('matrix',this)">📊 Matrix</button>
+</div>
+
+<!-- ════════ NORWAY ════════ -->
+<div id="no" class="country visible">
+  <div class="card">
+    <div class="card-head">
+      <span class="badge badge-g">Free · No auth</span>
+      <span class="ct">🇳🇴 Norway — BRREG API</span>
+    </div>
+    <div class="card-body">
+      <p>Most flexible free registry in Europe. Query by almost anything. All filters combinable. Real-time, live data.</p>
+    </div>
+  </div>
+
+  <table class="qtable">
+    <thead><tr><th>What you want to do</th><th>Possible?</th><th>Parameter</th><th>Example</th></tr></thead>
+    <tbody>
+      <tr><td>Look up company by org number</td><td class="yes">✓ Yes</td><td><code>GET /enheter/{orgnr}</code></td><td class="eg">974760843</td></tr>
+      <tr><td>Search by company name</td><td class="yes">✓ Yes</td><td><code>?navn=</code></td><td class="eg">?navn=Equinor</td></tr>
+      <tr><td>Filter by NACE code</td><td class="yes">✓ Yes</td><td><code>?naeringskode=</code></td><td class="eg">?naeringskode=62.010</td></tr>
+      <tr><td>Filter by city / municipality</td><td class="yes">✓ Yes</td><td><code>?kommunenummer=</code></td><td class="eg">?kommunenummer=301 (Oslo)</td></tr>
+      <tr><td>NACE + city combined</td><td class="yes">✓ Yes</td><td>Both params together</td><td class="eg">?naeringskode=62.010&kommunenummer=301</td></tr>
+      <tr><td>Filter by legal form (AS, ASA…)</td><td class="yes">✓ Yes</td><td><code>?organisasjonsform=</code></td><td class="eg">?organisasjonsform=AS</td></tr>
+      <tr><td>Check if active or closed</td><td class="yes">✓ Yes</td><td><code>?konkurs=</code> / <code>?underAvvikling=</code></td><td class="eg">?konkurs=false (active only)</td></tr>
+      <tr><td>Filter by employee count</td><td class="yes">✓ Yes</td><td><code>?fraAntallAnsatte=</code> <code>?tilAntallAnsatte=</code></td><td class="eg">?fraAntallAnsatte=10&tilAntallAnsatte=50</td></tr>
+      <tr><td>Filter VAT-registered only</td><td class="yes">✓ Yes</td><td><code>?registrertIMvaregisteret=</code></td><td class="eg">?registrertIMvaregisteret=true</td></tr>
+      <tr><td>Download all companies (bulk)</td><td class="yes">✓ Yes</td><td><code>GET /enheter/lastned/csv</code></td><td class="eg">Full ~1M entity dataset, free</td></tr>
+      <tr><td>Get only changes since date</td><td class="yes">✓ Yes</td><td><code>GET /oppdateringer/enheter?dato=</code></td><td class="eg">?dato=2026-01-01 (daily delta)</td></tr>
+      <tr><td>Filter by postcode</td><td class="yes">✓ Yes</td><td><code>?poststed=</code></td><td class="eg">?poststed=OSLO</td></tr>
+      <tr><td>Look up branch / subsidiary</td><td class="yes">✓ Yes</td><td><code>GET /underenheter/{orgnr}</code></td><td class="eg">Separate endpoint for sub-units</td></tr>
+      <tr><td>Filter bankrupt / liquidating companies</td><td class="yes">✓ Yes</td><td><code>?konkurs=true</code></td><td class="eg">Returns all companies in bankruptcy</td></tr>
+      <tr><td>Sort results by employee count</td><td class="yes">✓ Yes</td><td><code>?sort=antallAnsatte,DESC</code></td><td class="eg">Largest employers first</td></tr>
+      <tr><td>Filter by shareholder / owner</td><td class="no">✗ No</td><td>—</td><td class="eg">Not in open data</td></tr>
+    </tbody>
+  </table>
+
+  <div class="code-wrap"><span class="cm"># Verify if a company is active (not bankrupt, not liquidating)</span>
+GET https://data.brreg.no/enhetsregisteret/api/enheter/923609016
+
+<span class="cm"># Returns: konkurs: false, underAvvikling: false → company is active</span>
+
+<span class="cm"># All IT consultancies in Oslo with 10–100 employees</span>
+GET https://data.brreg.no/enhetsregisteret/api/enheter
+  ?naeringskode=62.010
+  &kommunenummer=301
+  &fraAntallAnsatte=10
+  &tilAntallAnsatte=100
+  &konkurs=false
+
+<span class="cm"># All companies gone bankrupt in Norway this year</span>
+GET https://data.brreg.no/enhetsregisteret/api/enheter?konkurs=true
+
+<span class="cm"># Daily delta — companies changed since 1 Jan 2026</span>
+GET https://data.brreg.no/enhetsregisteret/api/oppdateringer/enheter?dato=2026-01-01</div>
+</div>
+
+<!-- ════════ DENMARK ════════ -->
+<div id="dk" class="country">
+  <div class="card">
+    <div class="card-head">
+      <span class="badge badge-w">Free · Email credentials required</span>
+      <span class="ct">🇩🇰 Denmark — CVR Elasticsearch API</span>
+    </div>
+    <div class="card-body">
+      <p>Elasticsearch backend means you can filter on almost any field in any combination. Most powerful query model of all seven countries — but requires Elasticsearch syntax (POST with JSON body).</p>
+    </div>
+  </div>
+
+  <table class="qtable">
+    <thead><tr><th>What you want to do</th><th>Possible?</th><th>Field</th><th>Example</th></tr></thead>
+    <tbody>
+      <tr><td>Look up company by CVR number</td><td class="yes">✓ Yes</td><td><code>Vrvirksomhed.cvrNummer</code></td><td class="eg">term query on cvrNummer: 10103940</td></tr>
+      <tr><td>Search by company name</td><td class="yes">✓ Yes</td><td><code>Vrvirksomhed.navne.navn</code></td><td class="eg">match query — supports fuzzy</td></tr>
+      <tr><td>Filter by NACE code</td><td class="yes">✓ Yes</td><td><code>Vrvirksomhed.hovedbranche.branchekode</code></td><td class="eg">term: "620100"</td></tr>
+      <tr><td>Filter by secondary NACE</td><td class="yes">✓ Yes</td><td><code>Vrvirksomhed.binavne</code> / bibranche fields</td><td class="eg">Companies with NACE as secondary activity</td></tr>
+      <tr><td>Filter by status (active/closed)</td><td class="yes">✓ Yes</td><td><code>Vrvirksomhed.virksomhedsstatus.status</code></td><td class="eg">term: "NORMAL" (active) or "OPHØRT" (closed)</td></tr>
+      <tr><td>Filter by municipality</td><td class="yes">✓ Yes</td><td><code>Vrvirksomhed.beliggenhedsadresse.kommune.kommuneKode</code></td><td class="eg">term: 101 (Copenhagen)</td></tr>
+      <tr><td>Filter by legal form</td><td class="yes">✓ Yes</td><td><code>Vrvirksomhed.virksomhedsform.virksomhedsformkode</code></td><td class="eg">80 = ApS, 60 = A/S</td></tr>
+      <tr><td>Filter by employee count range</td><td class="yes">✓ Yes</td><td><code>VrproduktionsEnhed.erstMaanedsbeskaeftigelse.antalAnsatte</code></td><td class="eg">range query: gte: 10, lte: 100</td></tr>
+      <tr><td>Filter by ownership (>5% shareholder)</td><td class="yes">✓ Yes</td><td>Deltager index, ownership fields</td><td class="eg">Unique — only Nordic registry with this</td></tr>
+      <tr><td>Search company purpose text</td><td class="yes">✓ Yes</td><td><code>Vrvirksomhed.formaal</code></td><td class="eg">match query on purpose text</td></tr>
+      <tr><td>Filter has phone / email / website</td><td class="yes">✓ Yes</td><td><code>exists</code> query on contact fields</td><td class="eg">Must have website: exists field: hjemmeside</td></tr>
+      <tr><td>Get companies registered after date</td><td class="yes">✓ Yes</td><td><code>Vrvirksomhed.livsforloeb.periode.gyldigFra</code></td><td class="eg">range query on founding date</td></tr>
+      <tr><td>Bulk download all companies</td><td class="yes">✓ Yes</td><td>Scroll API</td><td class="eg">Paginate with scroll_id through all 2.2M</td></tr>
+      <tr><td>Get board members of a company</td><td class="yes">✓ Yes</td><td>Deltager index</td><td class="eg">Separate index: /cvr-permanent/deltager/</td></tr>
+    </tbody>
+  </table>
+
+  <div class="code-wrap"><span class="cm"># Active IT companies in Copenhagen with a website</span>
+POST http://distribution.virk.dk/cvr-permanent/virksomhed/_search
+{
+  <span class="ck">"query"</span>: { <span class="ck">"bool"</span>: { <span class="ck">"must"</span>: [
+    { <span class="ck">"term"</span>: { <span class="ck">"Vrvirksomhed.hovedbranche.branchekode"</span>: <span class="cv">"620100"</span> }},
+    { <span class="ck">"term"</span>: { <span class="ck">"Vrvirksomhed.virksomhedsstatus.status"</span>: <span class="cv">"NORMAL"</span> }},
+    { <span class="ck">"term"</span>: { <span class="ck">"Vrvirksomhed.beliggenhedsadresse.kommune.kommuneKode"</span>: 101 }},
+    { <span class="ck">"exists"</span>: { <span class="ck">"field"</span>: <span class="cv">"Vrvirksomhed.hjemmeside"</span> }}
+  ]}}
+}
+
+<span class="cm"># Verify a company: active + not bankrupt</span>
+POST http://distribution.virk.dk/cvr-permanent/virksomhed/_search
+{
+  <span class="ck">"query"</span>: { <span class="ck">"term"</span>: { <span class="ck">"Vrvirksomhed.cvrNummer"</span>: 10103940 }},
+  <span class="ck">"_source"</span>: [<span class="cv">"Vrvirksomhed.virksomhedsstatus"</span>, <span class="cv">"Vrvirksomhed.navne"</span>]
+}</div>
+</div>
+
+<!-- ════════ FINLAND ════════ -->
+<div id="fi" class="country">
+  <div class="card">
+    <div class="card-head">
+      <span class="badge badge-g">Free · No auth</span>
+      <span class="ct">🇫🇮 Finland — PRH / YTJ API</span>
+    </div>
+    <div class="card-body">
+      <p>Simple REST API with GET parameters. Fewer filter options than Norway/Denmark but covers the key use-cases. Unique: free financial statements for XBRL filers.</p>
+    </div>
+  </div>
+
+  <table class="qtable">
+    <thead><tr><th>What you want to do</th><th>Possible?</th><th>Parameter</th><th>Example</th></tr></thead>
+    <tbody>
+      <tr><td>Look up by Business ID (Y-tunnus)</td><td class="yes">✓ Yes</td><td><code>?businessId=</code></td><td class="eg">?businessId=0112038-9</td></tr>
+      <tr><td>Search by company name</td><td class="yes">✓ Yes</td><td><code>?name=</code></td><td class="eg">?name=Nokia</td></tr>
+      <tr><td>Filter by TOL/NACE code</td><td class="yes">✓ Yes</td><td><code>?mainBusinessLine=</code></td><td class="eg">?mainBusinessLine=62010</td></tr>
+      <tr><td>Filter by city / location</td><td class="yes">✓ Yes</td><td><code>?location=</code></td><td class="eg">?location=Helsinki</td></tr>
+      <tr><td>Filter by legal form</td><td class="yes">✓ Yes</td><td><code>?companyForm=</code></td><td class="eg">?companyForm=OY (private ltd)</td></tr>
+      <tr><td>Check if company is active/closed</td><td class="yes">✓ Yes</td><td>tradeRegisterStatus in response</td><td class="eg">REGISTERED = active, DISSOLVED = closed</td></tr>
+      <tr><td>Get financial statements</td><td class="yes">✓ Yes</td><td><code>GET /financial-statements?businessId=</code></td><td class="eg">XBRL digital filers only</td></tr>
+      <tr><td>Bulk download all companies</td><td class="yes">✓ Yes</td><td>Full JSON download endpoint</td><td class="eg">avoindata.prh.fi (full dataset)</td></tr>
+      <tr><td>Filter by registration date</td><td class="part">⚠ Partial</td><td>In response, not a query param</td><td class="eg">Filter offline after download</td></tr>
+      <tr><td>Filter by employee count</td><td class="no">✗ No</td><td>—</td><td class="eg">Not a filter — not in open data</td></tr>
+      <tr><td>Search by address / postcode</td><td class="no">✗ No</td><td>City only, not street/postcode</td><td class="eg">?location=Helsinki (city-level only)</td></tr>
+    </tbody>
+  </table>
+
+  <div class="code-wrap"><span class="cm"># Verify company status</span>
+GET https://avoindata.prh.fi/opendata-ytj-api/v3/companies?businessId=0112038-9
+<span class="cm"># Check: tradeRegisterStatus = "REGISTERED" (active) or "DISSOLVED"</span>
+
+<span class="cm"># All software companies in Helsinki</span>
+GET https://avoindata.prh.fi/opendata-ytj-api/v3/companies
+  ?mainBusinessLine=62010
+  &location=Helsinki
+
+<span class="cm"># Pull financial statements</span>
+GET https://avoindata.prh.fi/opendata-ytj-api/v3/financial-statements
+  ?businessId=2586908-7</div>
+</div>
+
+<!-- ════════ SWEDEN ════════ -->
+<div id="se" class="country">
+  <div class="card">
+    <div class="card-head">
+      <span class="badge badge-w">No live API — bulk CSV only</span>
+      <span class="ct">🇸🇪 Sweden — SCB / Bolagsverket</span>
+    </div>
+    <div class="card-body">
+      <p>Sweden has no free company-level lookup API. The free route is a monthly CSV from SCB. All filtering must be done offline after downloading.</p>
+      <div class="alert aw">⚠ You cannot query Sweden's registry live by name, NACE, or status — you download the whole dataset and filter it yourself.</div>
+    </div>
+  </div>
+
+  <table class="qtable">
+    <thead><tr><th>What you want to do</th><th>Possible?</th><th>How</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>Look up company by org number</td><td class="part">⚠ Offline</td><td>Filter CSV column organisationsnummer</td><td class="eg">Instant after download</td></tr>
+      <tr><td>Search by company name</td><td class="part">⚠ Offline</td><td>String match on name column in CSV</td><td class="eg">pandas: df[df.name.str.contains('Volvo')]</td></tr>
+      <tr><td>Filter by SNI/NACE code</td><td class="part">⚠ Offline</td><td>Filter industryCode column in CSV</td><td class="eg">df[df.industryCode == '62010']</td></tr>
+      <tr><td>Check active / closed status</td><td class="part">⚠ Offline</td><td>statusCode column: 100 = active</td><td class="eg">df[df.statusCode == 100]</td></tr>
+      <tr><td>Filter by employee band</td><td class="part">⚠ Offline</td><td>numberEmployeesInterval column</td><td class="eg">e.g. "1-4 anställda", "5-9 anställda"</td></tr>
+      <tr><td>Filter by legal form</td><td class="part">⚠ Offline</td><td>legalGroupCode column: AB, HB, etc.</td><td class="eg">df[df.legalGroupCode == 'AB']</td></tr>
+      <tr><td>Filter by city</td><td class="part">⚠ Offline</td><td>town column in CSV</td><td class="eg">df[df.town == 'STOCKHOLM']</td></tr>
+      <tr><td>Real-time lookup by name</td><td class="no">✗ No</td><td>Not available free</td><td class="eg">Bolagsverket API: paid (SEK 6,250 setup)</td></tr>
+      <tr><td>Get directors / shareholders</td><td class="no">✗ No</td><td>Not in free CSV</td><td class="eg">Bolagsverket paid only</td></tr>
+    </tbody>
+  </table>
+
+  <div class="code-wrap"><span class="cm"># After downloading the monthly CSV from SCB:</span>
+import pandas as pd
+
+df = pd.read_csv('sweden_companies.csv', sep=';', encoding='latin-1')
+
+<span class="cm"># All active software companies in Stockholm</span>
+result = df[
+    (df['industryCode'] == '62010') &
+    (df['statusCode'] == 100) &
+    (df['town'] == 'STOCKHOLM')
+]
+
+<span class="cm"># Verify a specific company</span>
+company = df[df['organisationsnummer'] == '5560000001']
+print(company[['companyName','statusCode','industryCode']].to_string())</div>
+</div>
+
+<!-- ════════ NETHERLANDS ════════ -->
+<div id="nl" class="country">
+  <div class="card">
+    <div class="card-head">
+      <span class="badge badge-w">€6.40/month subscription</span>
+      <span class="ct">🇳🇱 Netherlands — KVK Handelsregister</span>
+    </div>
+    <div class="card-body">
+      <p>Zoeken is free per-call (subscription key needed). Limited filter params — notably <strong>no SBI code filter</strong> on the live API. For SBI filtering you must use the offline open dataset or a third-party.</p>
+      <div class="alert aw">⚠ You CANNOT filter by SBI code on any KVK API endpoint. This is the biggest limitation vs the Nordic registries.</div>
+    </div>
+  </div>
+
+  <table class="qtable">
+    <thead><tr><th>What you want to do</th><th>Possible?</th><th>Parameter / Method</th><th>Example</th></tr></thead>
+    <tbody>
+      <tr><td>Look up by KVK number</td><td class="yes">✓ Yes</td><td><code>?kvkNummer=</code> or <code>/basisprofielen/{kvk}</code></td><td class="eg">?kvkNummer=68750110</td></tr>
+      <tr><td>Search by company name</td><td class="yes">✓ Yes</td><td><code>?naam=</code></td><td class="eg">?naam=Philips (exact match only)</td></tr>
+      <tr><td>Search by postcode + house number</td><td class="yes">✓ Yes</td><td><code>?postcode=&huisnummer=</code></td><td class="eg">?postcode=1234AB&huisnummer=5</td></tr>
+      <tr><td>Search by city</td><td class="yes">✓ Yes</td><td><code>?plaats=</code></td><td class="eg">?plaats=Amsterdam</td></tr>
+      <tr><td>Filter by entity type</td><td class="yes">✓ Yes</td><td><code>?type=</code></td><td class="eg">hoofdvestiging / nevenvestiging / rechtspersoon</td></tr>
+      <tr><td>Include closed / deregistered</td><td class="yes">✓ Yes</td><td><code>?inclusiefInactieveRegistraties=true</code></td><td class="eg">Default hides closed companies</td></tr>
+      <tr><td>Verify active / closed status</td><td class="yes">✓ Yes</td><td><code>actief</code> field in Zoeken response</td><td class="eg">actief: true / false</td></tr>
+      <tr><td>Get SBI code for a company</td><td class="yes">✓ Yes</td><td>Basisprofiel — <code>activiteiten[].sbiCode</code></td><td class="eg">Returned in full profile (paid)</td></tr>
+      <tr><td>Filter ALL companies by SBI code</td><td class="no">✗ No</td><td>Not a query parameter on any endpoint</td><td class="eg">Workaround: offline open dataset or openkvk.nl</td></tr>
+      <tr><td>Get employee count</td><td class="yes">✓ Yes</td><td>Basisprofiel — FT + PT fields</td><td class="eg">Paid Basisprofiel call</td></tr>
+      <tr><td>Get financial statements</td><td class="yes">✓ Yes</td><td>Free open dataset (anonymised, XBRL only)</td><td class="eg">opendata.kvk.nl — no company name returned</td></tr>
+      <tr><td>Get all companies in bulk (named)</td><td class="no">✗ No</td><td>Free bulk has no names</td><td class="eg">Named bulk = paid data export product</td></tr>
+      <tr><td>Get change notifications</td><td class="yes">✓ Yes</td><td>Mutatieservice — push alerts on changes</td><td class="eg">€1,279/year add-on</td></tr>
+    </tbody>
+  </table>
+
+  <div class="code-wrap"><span class="cm"># Verify company by name — check if active</span>
+GET https://api.kvk.nl/api/v2/zoeken?naam=Philips&type=hoofdvestiging
+<span class="cm"># Response includes: actief: true/false</span>
+
+<span class="cm"># Look up by KVK number (Zoeken — free per call)</span>
+GET https://api.kvk.nl/api/v2/zoeken?kvkNummer=68750110
+
+<span class="cm"># Full profile with SBI code (paid — €0.02)</span>
+GET https://api.kvk.nl/api/v1/basisprofielen/68750110
+<span class="cm"># Returns: activiteiten[0].sbiCode, voltijdWerkzamePersonen, etc.</span>
+
+<span class="cm"># SBI filtering — you must do this offline:</span>
+import pandas as pd
+df = pd.read_csv('kvk_open_data.csv')   <span class="cm"># anonymised — no names!</span>
+it_cos = df[df['sbiCode'].str.startswith('62')]</div>
+</div>
+
+<!-- ════════ BELGIUM ════════ -->
+<div id="be" class="country">
+  <div class="card">
+    <div class="card-head">
+      <span class="badge badge-g">Free bulk CSV (daily)</span>
+      <span class="ct">🇧🇪 Belgium — CBE / KBO</span>
+    </div>
+    <div class="card-body">
+      <p>Belgium has no live query API in the free tier. You download the full CSV daily and filter offline. This is actually fine — the CSV is complete, fast to process, and has NACE-BEL codes, directors, contacts, and status all together.</p>
+    </div>
+  </div>
+
+  <table class="qtable">
+    <thead><tr><th>What you want to do</th><th>Possible?</th><th>How</th><th>CSV Column</th></tr></thead>
+    <tbody>
+      <tr><td>Look up by enterprise number</td><td class="part">⚠ Offline</td><td>Filter enterprise.csv</td><td class="eg">EnterpriseNumber</td></tr>
+      <tr><td>Search by company name</td><td class="part">⚠ Offline</td><td>Filter denomination.csv</td><td class="eg">Denomination</td></tr>
+      <tr><td>Filter by NACE-BEL code</td><td class="part">⚠ Offline</td><td>Filter activity.csv</td><td class="eg">NaceCode (5-digit, 2025)</td></tr>
+      <tr><td>Check active / closed status</td><td class="part">⚠ Offline</td><td>Filter enterprise.csv</td><td class="eg">Status = "Active" / "Stopped"</td></tr>
+      <tr><td>Filter bankrupt / in liquidation</td><td class="part">⚠ Offline</td><td>Filter enterprise.csv</td><td class="eg">JuridicalSituation = "Bankruptcy"</td></tr>
+      <tr><td>Filter by legal form</td><td class="part">⚠ Offline</td><td>Filter enterprise.csv</td><td class="eg">JuridicalForm = BV, NV, etc.</td></tr>
+      <tr><td>Filter by city / postcode</td><td class="part">⚠ Offline</td><td>Filter address.csv</td><td class="eg">ZipCode, MunicipalityNL</td></tr>
+      <tr><td>Get phone / email / website</td><td class="part">⚠ Offline</td><td>Filter contact.csv</td><td class="eg">ContactType = TEL / EMAIL / WEB</td></tr>
+      <tr><td>Get directors</td><td class="part">⚠ Offline</td><td>Filter function.csv</td><td class="eg">FunctionCode, DateBegin</td></tr>
+      <tr><td>Real-time live lookup</td><td class="no">✗ No</td><td>Not in free tier</td><td class="eg">Paid SOAP API (same data, €50/2K requests)</td></tr>
+      <tr><td>Filter by employee count</td><td class="no">✗ No</td><td>Not in CBE data at any tier</td><td class="eg">Not collected</td></tr>
+      <tr><td>Get shareholders</td><td class="no">✗ No</td><td>Not in CBE data at any tier</td><td class="eg">Not collected by registry</td></tr>
+    </tbody>
+  </table>
+
+  <div class="code-wrap"><span class="cm"># After downloading and joining the CSVs:</span>
+import pandas as pd
+
+enterprises = pd.read_csv('enterprise.csv', sep=';')
+activities  = pd.read_csv('activity.csv',   sep=';')
+addresses   = pd.read_csv('address.csv',    sep=';')
+contacts    = pd.read_csv('contact.csv',    sep=';')
+
+<span class="cm"># All active IT companies in Brussels</span>
+it = activities[activities['NaceCode'] == '62010'][['EntityNumber']]
+active = enterprises[enterprises['Status'] == 'Active'][['EnterpriseNumber']]
+bxl = addresses[addresses['ZipCode'].between(1000, 1299)][['EntityNumber','ZipCode']]
+
+result = it.merge(active, left_on='EntityNumber', right_on='EnterpriseNumber')
+result = result.merge(bxl, on='EntityNumber')
+
+<span class="cm"># Verify a company: active + not bankrupt</span>
+co = enterprises[enterprises['EnterpriseNumber'] == '0403.091.220']
+print(co[['Status','JuridicalSituation']].to_string())</div>
+</div>
+
+<!-- ════════ LUXEMBOURG ════════ -->
+<div id="lu" class="country">
+  <div class="card">
+    <div class="card-head">
+      <span class="badge badge-r">No free API — portal + scraping only</span>
+      <span class="ct">🇱🇺 Luxembourg — LBR / RCS</span>
+    </div>
+    <div class="card-body">
+      <p>The free public portal allows name + RCS number search only. All richer queries require the paid professional API (LuxTrust + agreement). No bulk download exists at any tier.</p>
+    </div>
+  </div>
+
+  <table class="qtable">
+    <thead><tr><th>What you want to do</th><th>Possible?</th><th>How</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>Look up by RCS number</td><td class="yes">✓ Yes (free)</td><td>Portal search at lbr.lu</td><td class="eg">Scrapeable HTML or professional API</td></tr>
+      <tr><td>Search by company name</td><td class="yes">✓ Yes (free)</td><td>Portal search at lbr.lu</td><td class="eg">Scrapeable — returns basic profile page</td></tr>
+      <tr><td>Check active / dissolved status</td><td class="yes">✓ Yes (free)</td><td>Visible on company portal page</td><td class="eg">Scrapeable</td></tr>
+      <tr><td>Get purpose text (objet social)</td><td class="yes">✓ Yes (free)</td><td>HTML on company page or articles PDF</td><td class="eg">Best source for NACE classification</td></tr>
+      <tr><td>Get annual accounts</td><td class="yes">✓ Yes (free)</td><td>PDF download via portal</td><td class="eg">Last 20 years, free</td></tr>
+      <tr><td>Filter by NACE code</td><td class="no">✗ No (free)</td><td>Professional API only</td><td class="eg">NACE assigned monthly by STATEC</td></tr>
+      <tr><td>Filter by city / address</td><td class="no">✗ No</td><td>Not a search parameter anywhere</td><td class="eg">No geographic filter exists</td></tr>
+      <tr><td>Filter by legal form</td><td class="no">✗ No</td><td>Not a search parameter anywhere</td><td class="eg">Can filter offline after scraping</td></tr>
+      <tr><td>Get shareholders</td><td class="no">✗ No (free)</td><td>Professional API only</td><td class="eg">Shareholders ARE disclosed — just not free</td></tr>
+      <tr><td>Bulk download all companies</td><td class="no">✗ No</td><td>No bulk download at any tier</td><td class="eg">Must scrape individual pages</td></tr>
+      <tr><td>Get directors</td><td class="part">⚠ Partial (free)</td><td>In articles of association PDF</td><td class="eg">Structured in professional API</td></tr>
+      <tr><td>Get UBO / beneficial owners</td><td class="no">✗ No</td><td>RBE — AML professionals only</td><td class="eg">LuxTrust + separate RBE agreement</td></tr>
+    </tbody>
+  </table>
+
+  <div class="code-wrap"><span class="cm"># Free approach: scrape purpose text for NACE classification</span>
+import requests
+from bs4 import BeautifulSoup
+
+<span class="cm"># Search for a company</span>
+url = "https://www.lbr.lu/mjrcs/jsp/webapp/static/mjrcs/en/mjrcs/search.html"
+<span class="cm"># → manually navigate or scrape the search results</span>
+<span class="cm"># → get RCS number from result page</span>
+<span class="cm"># → fetch company page → extract "Objet social" div</span>
+
+<span class="cm"># Then classify purpose text:</span>
+purpose = "La société a pour objet la prise de participations..."
+<span class="cm"># "participations" → NACE 6420 (Holding companies)</span>
+<span class="cm"># "gestion de fonds" → NACE 6499 (Investment funds)</span>
+<span class="cm"># "immobilier" → NACE 6820 (Real estate)</span></div>
+</div>
+
+<!-- ════════ MATRIX ════════ -->
+<div id="matrix" class="country">
+  <div class="card">
+    <div class="card-head"><span class="ct">Query Capability Matrix — all 7 countries</span></div>
+    <div class="card-body" style="padding-bottom:0">
+      <p style="font-size:11px;color:#888;margin-bottom:10px">✓ = live API query &nbsp;|&nbsp; ▲ = offline only (download + filter) &nbsp;|&nbsp; ✗ = not possible &nbsp;|&nbsp; — = n/a</p>
+    </div>
+    <div style="overflow-x:auto;padding:0 14px 14px">
+    <table class="matrix">
+      <thead>
+        <tr>
+          <th style="min-width:200px">Use case</th>
+          <th>🇳🇴 NO</th>
+          <th>🇩🇰 DK</th>
+          <th>🇫🇮 FI</th>
+          <th>🇸🇪 SE</th>
+          <th>🇳🇱 NL</th>
+          <th>🇧🇪 BE</th>
+          <th>🇱🇺 LU</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Lookup by company ID</td>
+          <td class="m-y">✓</td><td class="m-y">✓</td><td class="m-y">✓</td>
+          <td class="m-p">▲</td><td class="m-y">✓</td><td class="m-p">▲</td><td class="m-y">✓</td></tr>
+        <tr><td>Search by name (live)</td>
+          <td class="m-y">✓</td><td class="m-y">✓</td><td class="m-y">✓</td>
+          <td class="m-n">✗</td><td class="m-y">✓</td><td class="m-n">✗</td><td class="m-y">✓</td></tr>
+        <tr><td>Filter by NACE/SBI code (live)</td>
+          <td class="m-y">✓</td><td class="m-y">✓</td><td class="m-y">✓</td>
+          <td class="m-p">▲</td><td class="m-n">✗</td><td class="m-p">▲</td><td class="m-n">✗</td></tr>
+        <tr><td>Verify active / closed (live)</td>
+          <td class="m-y">✓</td><td class="m-y">✓</td><td class="m-y">✓</td>
+          <td class="m-p">▲</td><td class="m-y">✓</td><td class="m-p">▲</td><td class="m-y">✓</td></tr>
+        <tr><td>Filter by city / region (live)</td>
+          <td class="m-y">✓</td><td class="m-y">✓</td><td class="m-y">✓</td>
+          <td class="m-p">▲</td><td class="m-y">✓</td><td class="m-p">▲</td><td class="m-n">✗</td></tr>
+        <tr><td>Filter by employee count</td>
+          <td class="m-y">✓</td><td class="m-y">✓</td><td class="m-n">✗</td>
+          <td class="m-p">▲</td><td class="m-y">✓</td><td class="m-n">✗</td><td class="m-n">✗</td></tr>
+        <tr><td>Filter bankrupt / liquidating</td>
+          <td class="m-y">✓</td><td class="m-y">✓</td><td class="m-y">✓</td>
+          <td class="m-p">▲</td><td class="m-y">✓</td><td class="m-p">▲</td><td class="m-y">✓</td></tr>
+        <tr><td>Get NACE / industry code</td>
+          <td class="m-y">✓</td><td class="m-y">✓</td><td class="m-y">✓</td>
+          <td class="m-p">▲</td><td class="m-y">✓</td><td class="m-p">▲</td><td class="m-n">✗</td></tr>
+        <tr><td>Get phone / email / website</td>
+          <td class="m-n">✗</td><td class="m-y">✓</td><td class="m-n">✗</td>
+          <td class="m-n">✗</td><td class="m-p">▲</td><td class="m-p">▲</td><td class="m-n">✗</td></tr>
+        <tr><td>Get directors / officers</td>
+          <td class="m-n">✗</td><td class="m-y">✓</td><td class="m-n">✗</td>
+          <td class="m-n">✗</td><td class="m-p">▲</td><td class="m-p">▲</td><td class="m-n">✗</td></tr>
+        <tr><td>Get shareholders</td>
+          <td class="m-n">✗</td><td class="m-y">✓</td><td class="m-n">✗</td>
+          <td class="m-n">✗</td><td class="m-n">✗</td><td class="m-n">✗</td><td class="m-p">▲</td></tr>
+        <tr><td>Get financial statements</td>
+          <td class="m-n">✗</td><td class="m-p">▲</td><td class="m-y">✓</td>
+          <td class="m-n">✗</td><td class="m-y">✓</td><td class="m-n">✗</td><td class="m-p">▲</td></tr>
+        <tr><td>Bulk download (with names)</td>
+          <td class="m-y">✓</td><td class="m-y">✓</td><td class="m-y">✓</td>
+          <td class="m-y">✓</td><td class="m-n">✗</td><td class="m-y">✓</td><td class="m-n">✗</td></tr>
+        <tr><td>Daily change delta feed</td>
+          <td class="m-y">✓</td><td class="m-y">✓</td><td class="m-y">✓</td>
+          <td class="m-p">▲</td><td class="m-y">✓</td><td class="m-y">✓</td><td class="m-n">✗</td></tr>
+        <tr><td>Free (no subscription)</td>
+          <td class="m-y">✓</td><td class="m-y">✓</td><td class="m-y">✓</td>
+          <td class="m-y">✓</td><td class="m-n">✗</td><td class="m-y">✓</td><td class="m-p">▲</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <div class="card-body" style="border-top:0.5px solid #e0e0de">
+      <p style="font-size:12px"><strong>Best for live filtering:</strong> Norway (most filter params, free) and Denmark (Elasticsearch, most powerful). <strong>Best for bulk + offline:</strong> Belgium (most complete CSV with contacts + directors). <strong>Worst:</strong> Luxembourg (no live query capability, no bulk, no NACE for free).</p>
+    </div>
+  </div>
+</div>
+
+<script>
+function sw(id,btn){
+  document.querySelectorAll('.country').forEach(c=>c.classList.remove('visible'));
+  document.getElementById(id).classList.add('visible');
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>
