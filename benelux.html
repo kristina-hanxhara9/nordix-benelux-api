@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Benelux Company Registry APIs — Field Reference 2026</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: system-ui, -apple-system, sans-serif; background: #f8f8f6; color: #1a1a18; padding: 24px; font-size: 14px; line-height: 1.6; }
+h1 { font-size: 20px; font-weight: 500; margin-bottom: 4px; }
+.subtitle { color: #666; font-size: 13px; margin-bottom: 20px; }
+.tab-row { display: flex; gap: 6px; margin-bottom: 16px; flex-wrap: wrap; }
+.tab { padding: 6px 14px; border-radius: 8px; border: 0.5px solid #ccc; font-size: 13px; cursor: pointer; background: #fff; color: #555; }
+.tab.active { background: #e6f1fb; color: #0c447c; border-color: transparent; font-weight: 500; }
+.country { display: none; }
+.country.visible { display: block; }
+.card { background: #fff; border: 0.5px solid #e0e0de; border-radius: 12px; margin-bottom: 12px; overflow: hidden; }
+.card-head { padding: 12px 16px; border-bottom: 0.5px solid #e0e0de; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.badge { font-size: 11px; padding: 2px 8px; border-radius: 6px; }
+.badge-green { background: #eaf3de; color: #3b6d11; }
+.badge-warn { background: #faeeda; color: #633806; }
+.badge-red { background: #fcebeb; color: #791f1f; }
+.badge-blue { background: #e6f1fb; color: #0c447c; }
+.card-title { font-size: 14px; font-weight: 500; }
+.card-body { padding: 12px 16px; }
+.card-body p { font-size: 13px; color: #555; margin-bottom: 8px; }
+.url-box { background: #f1efe8; border-radius: 6px; padding: 8px 12px; font-family: monospace; font-size: 11px; word-break: break-all; display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 8px; }
+.copy-btn { flex-shrink: 0; font-size: 11px; padding: 3px 8px; border: 0.5px solid #ccc; border-radius: 6px; cursor: pointer; background: #fff; color: #555; }
+.copy-btn:hover { background: #f1efe8; }
+.code { background: #f1efe8; border-radius: 6px; padding: 10px 12px; font-family: monospace; font-size: 11px; line-height: 1.8; white-space: pre; overflow-x: auto; margin-bottom: 8px; color: #444; }
+.tier-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 0 16px 14px; }
+.tier-wrap-single { display: grid; grid-template-columns: 1fr; gap: 10px; padding: 0 16px 14px; }
+.tier { border: 0.5px solid #e0e0de; border-radius: 8px; overflow: hidden; }
+.tier-head { padding: 7px 12px; font-size: 11px; font-weight: 600; }
+.tier-head.free { background: #eaf3de; color: #3b6d11; }
+.tier-head.paid { background: #e6f1fb; color: #0c447c; }
+.tier-head.restricted { background: #fcebeb; color: #791f1f; }
+.tier-field { font-size: 11px; padding: 5px 10px; border-top: 0.5px solid #f0f0ee; color: #555; display: flex; align-items: flex-start; gap: 6px; }
+.tier-field .sym { flex-shrink: 0; font-weight: 700; margin-top: 1px; }
+.tier-field .sym.y { color: #3b6d11; }
+.tier-field .sym.n { color: #993c1d; }
+.tier-field.highlight { background: #fffbf0; }
+.toggle { font-size: 11px; color: #888; cursor: pointer; padding: 7px 16px; border-top: 0.5px solid #e0e0de; display: block; }
+.toggle:hover { color: #333; }
+.hidden { display: none; }
+.alert { border-radius: 6px; padding: 9px 12px; font-size: 12px; margin-bottom: 8px; }
+.alert-info { background: #e6f1fb; color: #0c447c; }
+.alert-new { background: #fff8e6; color: #7a4800; border: 0.5px solid #f5c842; }
+.alert-green { background: #eaf3de; color: #3b6d11; }
+.alert-warn { background: #faeeda; color: #633806; }
+.summary-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.summary-table th { background: #f1efe8; padding: 8px 12px; text-align: left; font-weight: 500; border-bottom: 0.5px solid #ddd; }
+.summary-table td { padding: 7px 12px; border-bottom: 0.5px solid #eee; vertical-align: top; }
+.summary-table tr:last-child td { border-bottom: none; }
+.yes { color: #3b6d11; font-weight: 500; }
+.no-cell { color: #993c1d; }
+.part { color: #633806; }
+.update-tag { display: inline-block; font-size: 9px; font-weight: 700; background: #fff0d4; color: #7a4800; border: 0.5px solid #f5c842; border-radius: 4px; padding: 1px 5px; margin-left: 4px; vertical-align: middle; }
+.section-title { font-size: 13px; font-weight: 600; padding: 10px 16px 4px; color: #334155; border-top: 0.5px solid #e0e0de; }
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 0 16px 14px; }
+.info-box { background: #f8f8f6; border: 0.5px solid #e0e0de; border-radius: 8px; padding: 10px 12px; }
+.info-box .label { font-size: 10px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 4px; }
+.info-box .value { font-size: 12px; color: #334155; }
+</style>
+</head>
+<body>
+
+<h1>Benelux Company Registry APIs</h1>
+<p class="subtitle">Free vs paid breakdown &middot; Updated March 2026 &middot; BE &middot; NL &middot; LU</p>
+
+<div class="tab-row">
+  <button class="tab active" onclick="sw('nl',this)">&#127475;&#127473; Netherlands</button>
+  <button class="tab" onclick="sw('be',this)">&#127463;&#127466; Belgium</button>
+  <button class="tab" onclick="sw('lu',this)">&#127473;&#127482; Luxembourg</button>
+  <button class="tab" onclick="sw('compare',this)">&#128202; Compare all</button>
+</div>
+
+<!-- ════════════════════ NETHERLANDS ════════════════════ -->
+<div id="nl" class="country visible">
+
+  <div class="card">
+    <div class="card-head">
+      <span class="badge badge-warn">&euro;6.40/month subscription required</span>
+      <span class="badge badge-green">Free calls on Zoeken &amp; Financial Statements</span>
+      <span class="card-title">Netherlands &mdash; KVK Handelsregister</span>
+    </div>
+    <div class="card-body">
+      <p>The subscription fee (&euro;6.40/month) unlocks all four APIs. <strong>Zoeken</strong> is then free per call and returns company names. <strong>Basisprofiel</strong> costs &euro;0.02/call on top. There is also a truly free open dataset for financial statements &mdash; but it is anonymised, meaning the company name is deliberately removed.</p>
+      <div class="alert alert-new">&#128226; 2026: UBO API expected &mdash; will expand beneficial ownership access to those with &ldquo;legitimate interest&rdquo;. Not yet live as of March 2026.</div>
+    </div>
+  </div>
+
+  <!-- Zoeken -->
+  <div class="card">
+    <div class="card-head">
+      <span class="badge badge-green">Free per call (subscription key required)</span>
+      <span class="card-title">1. Zoeken API &mdash; Search</span>
+    </div>
+    <div class="card-body">
+      <p>Use to search by name, postcode, city, or entity type. Returns company name and a link to fetch the full profile. Max 1,000 results per query, 100 per page.</p>
+    </div>
+    <div class="two-col">
+      <div class="info-box">
+        <div class="label">Search parameters</div>
+        <div class="value">
+          naam &mdash; company name (full text match only)<br>
+          postcode + huisnummer &mdash; postcode + house number<br>
+          plaats &mdash; city<br>
+          type &mdash; see entity types below<br>
+          kvkNummer &mdash; direct lookup<br>
+          rsin, vestigingsnummer &mdash; ID lookups
+        </div>
+      </div>
+      <div class="info-box">
+        <div class="label">Entity types (type=)</div>
+        <div class="value">
+          <strong>hoofdvestiging</strong> &mdash; main branch (primary registered location)<br>
+          <strong>nevenvestiging</strong> &mdash; branch office (secondary locations)<br>
+          <strong>rechtspersoon</strong> &mdash; legal entity (the company as a legal person)<br><br>
+          Combine: <code>?type=hoofdvestiging&amp;type=rechtspersoon</code><br>
+          Tip: use <code>hoofdvestiging</code> or <code>rechtspersoon</code> to avoid duplicate hits when a company has many branches.
+        </div>
+      </div>
+    </div>
+    <div class="tier-wrap-single">
+      <div class="tier">
+        <div class="tier-head free">Returns in each result</div>
+        <div class="tier-field"><span class="sym y">+</span><span><strong>naam</strong> &mdash; company name (statutory name or first trade name) &#10003; names ARE returned</span></div>
+        <div class="tier-field"><span class="sym y">+</span><span>kvkNummer, vestigingsnummer, rsin</span></div>
+        <div class="tier-field"><span class="sym y">+</span><span>Address (street, city, postcode if searched by it)</span></div>
+        <div class="tier-field"><span class="sym y">+</span><span>type (hoofdvestiging / nevenvestiging / rechtspersoon)</span></div>
+        <div class="tier-field"><span class="sym y">+</span><span>actief &mdash; whether active or deregistered</span></div>
+        <div class="tier-field"><span class="sym y">+</span><span>Links to Basisprofiel and Vestigingsprofiel for chaining</span></div>
+        <div class="tier-field"><span class="sym n">&minus;</span><span>SBI code &mdash; NOT a search filter, NOT returned here</span></div>
+        <div class="tier-field"><span class="sym n">&minus;</span><span>Employee count, financials, shareholders &mdash; not here</span></div>
+      </div>
+    </div>
+    <div class="card-body" style="border-top:0.5px solid #e0e0de">
+      <div class="url-box"><span id="nl-u1">https://api.kvk.nl/api/v2/zoeken?naam=Philips&type=hoofdvestiging</span><button class="copy-btn" onclick="cp('nl-u1',this)">Copy</button></div>
+      <div class="url-box"><span id="nl-u2">https://api.kvk.nl/api/v2/zoeken?postcode=1234AB&huisnummer=5</span><button class="copy-btn" onclick="cp('nl-u2',this)">Postcode search</button></div>
+      <div class="alert alert-warn" style="margin-top:8px;margin-bottom:0">&#9888; Search is exact-match only, not fuzzy. &ldquo;koophand&rdquo; returns zero results; &ldquo;koophandel&rdquo; returns ~1,000. No SBI filter exists on any KVK API.</div>
+    </div>
+  </div>
+
+  <!-- Basisprofiel -->
+  <div class="card">
+    <div class="card-head">
+      <span class="badge badge-warn">&euro;0.02 per call</span>
+      <span class="card-title">2. Basisprofiel API &mdash; Full Company Profile</span>
+    </div>
+    <div class="card-body"><p>Called with a KVK number (from Zoeken). Returns everything about a company in one response.</p></div>
+    <div class="tier-wrap-single">
+      <div class="tier">
+        <div class="tier-head paid">Returns</div>
+        <div class="tier-field"><span class="sym y">+</span><span>Full name, KVK number, RSIN, legal form</span></div>
+        <div class="tier-field"><span class="sym y">+</span><span>SBI code(s) + description &mdash; this is the only place SBI appears with a company name</span></div>
+        <div class="tier-field"><span class="sym y">+</span><span>Full registered address with geocoordinates (BAG)</span></div>
+        <div class="tier-field"><span class="sym y">+</span><span>Registration date</span></div>
+        <div class="tier-field"><span class="sym y">+</span><span>Full-time + part-time employee counts</span></div>
+        <div class="tier-field"><span class="sym y">+</span><span>Website</span></div>
+        <div class="tier-field"><span class="sym y">+</span><span>Main owner / shareholder name (one only)</span></div>
+        <div class="tier-field"><span class="sym y">+</span><span>Branch list with links</span></div>
+        <div class="tier-field"><span class="sym n">&minus;</span><span>Full shareholder list (private register)</span></div>
+        <div class="tier-field"><span class="sym n">&minus;</span><span>Directors / officers (use Vestigingsprofiel)</span></div>
+        <div class="tier-field"><span class="sym n">&minus;</span><span>Financials (use free Financial Statements dataset)</span></div>
+      </div>
+    </div>
+    <div class="card-body" style="border-top:0.5px solid #e0e0de">
+      <div class="url-box"><span id="nl-u3">https://api.kvk.nl/api/v1/basisprofielen/68750110</span><button class="copy-btn" onclick="cp('nl-u3',this)">Copy</button></div>
+    </div>
+  </div>
+
+  <!-- Free Financial Statements -->
+  <div class="card">
+    <div class="card-head">
+      <span class="badge badge-green">Truly free &mdash; no subscription needed</span>
+      <span class="card-title">3. Open Dataset Financial Statements &mdash; Anonymised</span>
+    </div>
+    <div class="card-body">
+      <p>Free, CC BY 4.0, no account. Returns balance sheet, income statement, cash flow for companies that file accounts digitally via XBRL. <strong>Deliberately anonymised</strong> &mdash; KVK strips the company name and KVK number because for sole traders and small BVs the name is personal data.</p>
+      <div class="alert alert-info">To use this meaningfully: call Basisprofiel first (paid) to get the KVK number and name, then query this endpoint with that KVK number to attach financials. The two datasets are designed to be joined &mdash; just not for free in bulk with names attached.</div>
+    </div>
+    <div class="tier-wrap-single">
+      <div class="tier">
+        <div class="tier-head free">Returns (XBRL filers only)</div>
+        <div class="tier-field"><span class="sym y">+</span><span>SBI code</span></div>
+        <div class="tier-field"><span class="sym y">+</span><span>Financial year + filing date</span></div>
+        <div class="tier-field"><span class="sym y">+</span><span>Balance sheet: total assets, fixed assets, current assets, equity, liabilities</span></div>
+        <div class="tier-field"><span class="sym y">+</span><span>Income statement: revenue, result for the year, operating result</span></div>
+        <div class="tier-field"><span class="sym y">+</span><span>Cash flow statement (where applicable)</span></div>
+        <div class="tier-field"><span class="sym n">&minus;</span><span>Company name &mdash; intentionally removed</span></div>
+        <div class="tier-field"><span class="sym n">&minus;</span><span>KVK number &mdash; intentionally removed from the response</span></div>
+      </div>
+    </div>
+    <div class="card-body" style="border-top:0.5px solid #e0e0de">
+      <div class="url-box"><span id="nl-u4">https://opendata.kvk.nl/api/v1/hvds/jaarrekeningen/kvknummer/68750110</span><button class="copy-btn" onclick="cp('nl-u4',this)">Copy</button></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ════════════════════ BELGIUM ════════════════════ -->
+<div id="be" class="country">
+
+  <div class="card">
+    <div class="card-head">
+      <span class="badge badge-green">Free &mdash; bulk CSV via SFTP (email registration)</span>
+      <span class="card-title">Belgium &mdash; CBE / KBO</span>
+    </div>
+    <div class="card-body">
+      <p>One access model: <strong>free bulk CSV</strong>. There is also a paid SOAP API (&euro;50 / 2,000 requests) but it returns <em>exactly the same data</em> as the free CSV, just per-query in real time. For data science purposes the free CSV is always the right choice &mdash; there is no premium tier with extra fields.</p>
+      <div class="alert alert-new">&#128226; June 2025: Data updated <strong>daily</strong> (was Tue&ndash;Sat). Jan 2026: all 7-digit NACE codes auto-replaced with 5-digit equivalents across all active entities.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head">
+      <span class="badge badge-green">Free</span>
+      <span class="card-title">Open Data CSV (SFTP) &mdash; everything that exists</span>
+    </div>
+    <div class="tier-wrap-single">
+      <div class="tier">
+        <div class="tier-head free">All fields available (spread across CSV files in the ZIP)</div>
+        <div class="tier-field"><span class="sym y">+</span><span><strong>enterprise.csv</strong> &mdash; EnterpriseNumber (10-digit), Status, JuridicalSituation, legal form, StartDate, TypeOfEnterprise</span></div>
+        <div class="tier-field"><span class="sym y">+</span><span><strong>denomination.csv</strong> &mdash; company name in Dutch, French, German</span></div>
+        <div class="tier-field"><span class="sym y">+</span><span><strong>activity.csv</strong> &mdash; NACE-BEL 2025 codes (5-digit, multiple per company)</span></div>
+        <div class="tier-field"><span class="sym y">+</span><span><strong>address.csv</strong> &mdash; full street address, postcode, municipality</span></div>
+        <div class="tier-field"><span class="sym y">+</span><span><strong>contact.csv</strong> &mdash; phone, email, website</span></div>
+        <div class="tier-field"><span class="sym y">+</span><span><strong>function.csv</strong> &mdash; directors and legal representatives (name, role, start date)</span></div>
+        <div class="tier-field"><span class="sym y">+</span><span><strong>establishment.csv</strong> &mdash; branch / establishment units</span></div>
+        <div class="tier-field"><span class="sym n">&minus;</span><span>Shareholders &mdash; not in CBE at any tier</span></div>
+        <div class="tier-field"><span class="sym n">&minus;</span><span>Financial statements &mdash; not in CBE at any tier</span></div>
+      </div>
+    </div>
+    <span class="toggle" id="be-tog" onclick="tog('be-ex','be-tog','Show CSV row examples','Hide examples')">&#9658; Show CSV row examples</span>
+    <div class="code hidden" id="be-ex">// enterprise.csv
+EnterpriseNumber,Status,JuridicalSituation,TypeOfEnterprise,JuridicalForm,StartDate
+0403.091.220,Active,Normal,LegalPerson,BVBA/SPRL,1985-07-01
+
+// denomination.csv
+EntityNumber,Language,TypeOfDenomination,Denomination
+0403.091.220,2,001,Delhaize Group
+0403.091.220,1,001,Delhaize Groep
+
+// address.csv
+EntityNumber,TypeOfAddress,ZipCode,MunicipalityNL,StreetNL,HouseNumber
+0403.091.220,001,1080,Molenbeek-Saint-Jean,Square Marie Curie,40
+
+// activity.csv -- NACE-BEL 2025 (5-digit since Jan 2026)
+EntityNumber,ActivityGroup,NaceVersion,NaceCode,Classification
+0403.091.220,001,2025,47110,001    // 47110 = Supermarkets
+0403.091.220,001,2025,47190,002    // 47190 = Other non-specialised retail
+
+// contact.csv
+EntityNumber,EntityContact,ContactType,Value
+0403.091.220,ENT,TEL,+3225240011
+0403.091.220,ENT,WEB,www.delhaizegroup.com
+
+// function.csv
+EntityNumber,TypeOfFunction,FunctionCode,DateBegin,DataSource
+0403.091.220,008,50Q,2019-05-15,KBO</div>
+    <div class="card-body" style="border-top:0.5px solid #e0e0de">
+      <div class="url-box"><span id="be-u1">https://economie.fgov.be/en/themes/enterprises/crossroads-bank-enterprises/services-everyone/public-data-available-reuse/cbe-open-data</span><button class="copy-btn" onclick="cp('be-u1',this)">Register for CSV</button></div>
+      <p style="font-size:12px;color:#666">Email <strong>kbo-bce-webservice@economie.fgov.be</strong> for SFTP access. Files: complete daily snapshot + daily delta.</p>
+    </div>
+  </div>
+
+</div>
+
+<!-- ════════════════════ LUXEMBOURG ════════════════════ -->
+<div id="lu" class="country">
+
+  <div class="card">
+    <div class="card-head">
+      <span class="badge badge-green">Free portal &mdash; PDFs + purpose text</span>
+      <span class="badge badge-blue">Paid professional API</span>
+      <span class="badge badge-red">No self-service signup</span>
+      <span class="card-title">Luxembourg &mdash; LBR / RCS + RBE</span>
+    </div>
+    <div class="card-body">
+      <p>Three access tiers. The professional API (since 2022) provides structured data including NACE codes, shareholders, and purpose text as a field. The free portal has the same purpose text in HTML &mdash; scrapeable. <strong>No emails or websites</strong> at any tier &mdash; the registry only stores legal data. 168,400+ entities as of December 2025.</p>
+      <div class="alert alert-new">&#128226; Jan 2026: LBR announced major data quality reforms &mdash; automated + manual filing checks, fines for late filing (&euro;50&ndash;&euro;500). NACE codes now formally part of RCS via monthly STATEC collaboration.</div>
+    </div>
+  </div>
+
+  <!-- Tier 1 -->
+  <div class="card">
+    <div class="card-head">
+      <span class="badge badge-green">Free &mdash; no account</span>
+      <span class="card-title">Tier 1 &mdash; Free Public Portal (lbr.lu)</span>
+    </div>
+    <div class="tier-wrap-single">
+      <div class="tier">
+        <div class="tier-head free">Available free &mdash; portal search or HTML scrape</div>
+        <div class="tier-field"><span class="sym y">+</span><span>Company name + RCS number</span></div>
+        <div class="tier-field"><span class="sym y">+</span><span>Legal form (SA, Sarl, SCS, SCSp, SE etc.)</span></div>
+        <div class="tier-field"><span class="sym y">+</span><span>Registered address</span></div>
+        <div class="tier-field"><span class="sym y">+</span><span>Share capital</span></div>
+        <div class="tier-field highlight"><span class="sym y">+</span><span><strong>Purpose text (objet social)</strong> &mdash; shown in HTML on company page, scrapeable. Use for AI-based NACE classification. Typically very specific in Luxembourg filings.</span></div>
+        <div class="tier-field"><span class="sym y">+</span><span>Annual accounts &mdash; PDF, free, last 20 years</span></div>
+        <div class="tier-field"><span class="sym y">+</span><span>Articles of association &mdash; PDF, free</span></div>
+        <div class="tier-field"><span class="sym y">+</span><span>RESA publication history (official gazette)</span></div>
+        <div class="tier-field"><span class="sym n">&minus;</span><span>NACE code &mdash; only in professional API</span></div>
+        <div class="tier-field"><span class="sym n">&minus;</span><span>Shareholders &mdash; only in professional API</span></div>
+        <div class="tier-field"><span class="sym n">&minus;</span><span>Website or email &mdash; not collected by LBR at any tier</span></div>
+        <div class="tier-field"><span class="sym n">&minus;</span><span>Bulk download &mdash; not available</span></div>
+      </div>
+    </div>
+    <div class="card-body" style="border-top:0.5px solid #e0e0de">
+      <div class="alert alert-info">&#128161; <strong>For NACE without paying:</strong> scrape the purpose text from the free portal &rarr; run your own classifier. Most LU entities cluster into 4&ndash;5 purpose patterns (holding, fund, real estate, services). Simple keyword matching covers ~70% of the corpus; an LLM call handles the rest. At ~&euro;0.001/call that&rsquo;s roughly &euro;40 for the full 168K.</div>
+      <div class="url-box"><span id="lu-u1">https://www.lbr.lu</span><button class="copy-btn" onclick="cp('lu-u1',this)">Portal</button></div>
+      <div class="url-box"><span id="lu-u2">https://www.lbr.lu/mjrcs-resa/</span><button class="copy-btn" onclick="cp('lu-u2',this)">RESA publications</button></div>
+    </div>
+  </div>
+
+  <!-- Tier 2 -->
+  <div class="card">
+    <div class="card-head">
+      <span class="badge badge-blue">Paid &mdash; LuxTrust + signed agreement</span>
+      <span class="card-title">Tier 2 &mdash; Professional API (structured JSON)</span>
+    </div>
+    <div class="card-body"><p>Available since 2022. Targeted at fiduciaries, law firms, KYC platforms. Contact <strong>helpdesk@lbr.lu</strong>. No public pricing.</p></div>
+    <div class="tier-wrap-single">
+      <div class="tier">
+        <div class="tier-head paid">All Tier 1 data, structured as JSON, plus:</div>
+        <div class="tier-field highlight"><span class="sym y">+</span><span><strong>NACE code</strong> &mdash; pre-assigned monthly via LBR &times; STATEC</span></div>
+        <div class="tier-field highlight"><span class="sym y">+</span><span><strong>Purpose text</strong> as a structured field (same content as portal, but JSON)</span></div>
+        <div class="tier-field highlight"><span class="sym y">+</span><span><strong>Shareholders</strong> &mdash; name, address, shares held, share type</span></div>
+        <div class="tier-field"><span class="sym y">+</span><span>Directors &mdash; name, role, signatory powers (individual / joint)</span></div>
+        <div class="tier-field"><span class="sym y">+</span><span>Registration history and amendment events</span></div>
+        <div class="tier-field"><span class="sym y">+</span><span>Insolvency register (REGINSOL) cross-reference</span></div>
+        <div class="tier-field"><span class="sym n">&minus;</span><span>UBO data &mdash; Tier 3 only</span></div>
+        <div class="tier-field"><span class="sym n">&minus;</span><span>Website / email / phone &mdash; not in registry at any tier</span></div>
+      </div>
+    </div>
+    <span class="toggle" id="lu-tog" onclick="tog('lu-ex','lu-tog','Show API response example','Hide example')">&#9658; Show API response example</span>
+    <div class="code hidden" id="lu-ex">// Professional API -- structured RCS extract
+{
+  "rcsNumber": "B123456",
+  "companyName": "Example Sarl",
+  "legalForm": "Societe a Responsabilite Limitee",
+  "registrationDate": "2010-03-15",
+  "registeredOffice": "5 Rue de la Paix, L-1616 Luxembourg",
+  "shareCapital": "EUR 12,500",
+  "purpose": "Holding participations in Luxembourg and foreign companies,
+   in any form, acquiring by purchase, subscription or otherwise,
+   as well as transferring by sale, exchange or otherwise.",
+  "naceCode": "6420",         // pre-assigned by STATEC monthly
+  "directors": [{
+    "name": "Jean-Pierre Mueller",
+    "role": "Gerant",
+    "signatoryPower": "Individual signature",
+    "from": "2010-03-15"
+  }],
+  "shareholders": [{
+    "name": "Luxembourg Holding SA",
+    "address": "12 Avenue de la Liberte, L-1930 Luxembourg",
+    "sharesHeld": 500,
+    "shareType": "parts sociales"
+  }]
+}</div>
+  </div>
+
+  <!-- Tier 3 -->
+  <div class="card">
+    <div class="card-head">
+      <span class="badge badge-red">AML professionals only</span>
+      <span class="card-title">Tier 3 &mdash; RBE Beneficial Ownership Register</span>
+    </div>
+    <div class="tier-wrap-single">
+      <div class="tier">
+        <div class="tier-head restricted">Restricted &mdash; LuxTrust + separate RBE agreement + logged access</div>
+        <div class="tier-field"><span class="sym y">+</span><span>UBO full names, date of birth, nationality</span></div>
+        <div class="tier-field"><span class="sym y">+</span><span>Shareholding percentage + nature of control</span></div>
+        <div class="tier-field"><span class="sym n">&minus;</span><span>Not accessible to data scientists without AML mandate. Every access logged for 5 years.</span></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ════════════════════ COMPARE ════════════════════ -->
+<div id="compare" class="country">
+  <div class="card">
+    <div class="card-head"><span class="card-title">Benelux &mdash; full comparison (March 2026)</span></div>
+    <div style="overflow-x:auto;padding:4px">
+    <table class="summary-table">
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th>&#127475;&#127473; Netherlands (KVK)</th>
+          <th>&#127463;&#127466; Belgium (CBE/KBO)</th>
+          <th>&#127473;&#127482; Luxembourg (LBR)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Entity count</td><td>2.58M businesses</td><td>1.5M+ active</td><td>168,400+ (Dec 2025)</td></tr>
+        <tr><td>Free bulk download</td><td class="no-cell">Anonymised only (no names)</td><td class="yes">Yes &mdash; named CSV, daily</td><td class="no-cell">No</td></tr>
+        <tr><td>Free financial data</td><td class="yes">Yes &mdash; XBRL filers (anonymised)</td><td class="no-cell">No</td><td class="part">PDF only</td></tr>
+        <tr><td>Search by SBI/NACE</td><td class="no-cell">No &mdash; not a Zoeken filter</td><td class="yes">Yes &mdash; in CSV activity.csv</td><td class="no-cell">No</td></tr>
+        <tr><td>Company names in free tier</td><td class="part">Zoeken (names) = &euro;6.40/mo key. Bulk = no names.</td><td class="yes">Yes &mdash; denomination.csv</td><td class="part">Portal only (scrapeable)</td></tr>
+        <tr><td>NACE codes</td><td class="yes">SBI 2025 (5-digit, in Basisprofiel)</td><td class="yes">NACE-BEL 2025 (5-digit, free)</td><td class="part">Professional API only</td></tr>
+        <tr><td>Purpose / business description</td><td class="yes">activiteiten field (paid)</td><td class="no-cell">No</td><td class="yes">Free portal (scrape) or paid API field</td></tr>
+        <tr><td>Employee count</td><td class="yes">FT + PT (paid Basisprofiel)</td><td class="no-cell">No</td><td class="no-cell">No</td></tr>
+        <tr><td>Directors</td><td class="part">Main owner only (paid)</td><td class="yes">Yes &mdash; free CSV</td><td class="yes">Full detail (professional API)</td></tr>
+        <tr><td>Shareholders</td><td class="no-cell">Private register</td><td class="no-cell">Not in CBE</td><td class="yes">Yes (professional API)</td></tr>
+        <tr><td>Website / email</td><td class="part">Website only (paid)</td><td class="yes">Phone + email + website (free)</td><td class="no-cell">Not collected by registry</td></tr>
+        <tr><td>Update frequency</td><td>Real-time (paid API)</td><td>Daily</td><td>Per filing</td></tr>
+        <tr><td>Cost for named company data</td><td>&euro;6.40/mo subscription</td><td>Free</td><td>Paid (no public pricing)</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+</div>
+
+<script>
+function sw(id,btn){
+  document.querySelectorAll('.country').forEach(c=>c.classList.remove('visible'));
+  document.getElementById(id).classList.add('visible');
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+}
+function tog(id,togId,openLabel,closeLabel){
+  var e=document.getElementById(id);
+  var t=document.getElementById(togId);
+  if(e.classList.contains('hidden')){
+    e.classList.remove('hidden');
+    t.textContent='\u25BC '+closeLabel;
+  } else {
+    e.classList.add('hidden');
+    t.textContent='\u25BA '+openLabel;
+  }
+}
+function cp(id,btn){
+  navigator.clipboard.writeText(document.getElementById(id).textContent.trim()).then(()=>{
+    var orig=btn.textContent;
+    btn.textContent='Copied!';
+    setTimeout(()=>btn.textContent=orig,1500);
+  });
+}
+</script>
+</body>
+</html>

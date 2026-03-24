@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nordic Company Registry APIs — Field Reference</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: system-ui, -apple-system, sans-serif; background: #f8f8f6; color: #1a1a18; padding: 24px; font-size: 14px; line-height: 1.6; }
+h1 { font-size: 20px; font-weight: 500; margin-bottom: 4px; }
+.subtitle { color: #666; font-size: 13px; margin-bottom: 20px; }
+.tab-row { display: flex; gap: 6px; margin-bottom: 16px; flex-wrap: wrap; }
+.tab { padding: 6px 14px; border-radius: 8px; border: 0.5px solid #ccc; font-size: 13px; cursor: pointer; background: #fff; color: #555; transition: all 0.15s; }
+.tab.active { background: #e6f1fb; color: #0c447c; border-color: transparent; font-weight: 500; }
+.country { display: none; }
+.country.visible { display: block; }
+.card { background: #fff; border: 0.5px solid #e0e0de; border-radius: 12px; margin-bottom: 12px; overflow: hidden; }
+.card-head { padding: 12px 16px; border-bottom: 0.5px solid #e0e0de; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.badge { font-size: 11px; padding: 2px 8px; border-radius: 6px; }
+.badge-green { background: #eaf3de; color: #3b6d11; }
+.badge-warn { background: #faeeda; color: #633806; }
+.badge-info { background: #e6f1fb; color: #0c447c; }
+.card-title { font-size: 14px; font-weight: 500; }
+.card-body { padding: 12px 16px; }
+.card-body p { font-size: 13px; color: #555; margin-bottom: 8px; }
+.url-box { background: #f1efe8; border-radius: 6px; padding: 8px 12px; font-family: monospace; font-size: 11px; word-break: break-all; display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 8px; }
+.copy-btn { flex-shrink: 0; font-size: 11px; padding: 3px 8px; border: 0.5px solid #ccc; border-radius: 6px; cursor: pointer; background: #fff; color: #555; }
+.copy-btn:hover { background: #f1efe8; }
+.code { background: #f1efe8; border-radius: 6px; padding: 10px 12px; font-family: monospace; font-size: 11px; line-height: 1.8; white-space: pre; overflow-x: auto; margin-bottom: 8px; color: #444; }
+.key { color: #534ab7; }
+.val { color: #0f6e56; }
+.num { color: #993c1d; }
+.bool { color: #185fa5; }
+.comment { color: #888; font-style: italic; }
+.field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; padding: 0 16px 12px; }
+.field { font-size: 12px; padding: 4px 8px; border-radius: 6px; border: 0.5px solid #ddd; color: #666; }
+.field.has { border-color: #a0c97c; color: #3b6d11; background: #eaf3de; }
+.field.no { border-color: #e8c87a; color: #633806; }
+.toggle { font-size: 11px; color: #888; cursor: pointer; padding: 7px 16px; border-top: 0.5px solid #e0e0de; display: block; }
+.toggle:hover { color: #333; }
+.hidden { display: none; }
+.section-label { font-size: 13px; font-weight: 500; padding: 8px 16px 4px; }
+.summary-table { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 20px; }
+.summary-table th { background: #f1efe8; padding: 8px 12px; text-align: left; font-weight: 500; border-bottom: 0.5px solid #ddd; }
+.summary-table td { padding: 7px 12px; border-bottom: 0.5px solid #eee; vertical-align: top; }
+.summary-table tr:last-child td { border-bottom: none; }
+.yes { color: #3b6d11; font-weight: 500; }
+.no-cell { color: #993c1d; }
+.part { color: #633806; }
+</style>
+</head>
+<body>
+
+<h1>Nordic Company Registry APIs</h1>
+<p class="subtitle">Realistic field-by-field reference with real example outputs — built for data scientists</p>
+
+<div class="tab-row">
+  <button class="tab active" onclick="sw('no',this)">🇳🇴 Norway</button>
+  <button class="tab" onclick="sw('dk',this)">🇩🇰 Denmark</button>
+  <button class="tab" onclick="sw('fi',this)">🇫🇮 Finland</button>
+  <button class="tab" onclick="sw('se',this)">🇸🇪 Sweden</button>
+  <button class="tab" onclick="sw('compare',this)">📊 Compare all</button>
+</div>
+
+<!-- NORWAY -->
+<div id="no" class="country visible">
+  <div class="card">
+    <div class="card-head">
+      <span class="badge badge-green">✓ Free — No account, no key</span>
+      <span class="card-title">Norway — BRREG Enhetsregisteret</span>
+    </div>
+    <div class="card-body">
+      <p>Best-in-class. Fully open REST API, no registration needed, bulk download included. Up to <strong>3 NACE codes per company</strong>, employee count, and VAT status natively included in every response. Licence: NLOD (Norwegian open government data).</p>
+      <div class="url-box"><span id="no-u1">https://data.brreg.no/enhetsregisteret/api/enheter/974760843</span><button class="copy-btn" onclick="cp('no-u1',this)">Copy</button></div>
+      <div class="url-box"><span id="no-u2">https://data.brreg.no/enhetsregisteret/api/enheter/lastned/csv</span><button class="copy-btn" onclick="cp('no-u2',this)">Bulk CSV</button></div>
+      <div class="url-box"><span id="no-u3">https://data.brreg.no/enhetsregisteret/api/enheter?naeringskode=62.010&kommunenummer=0301</span><button class="copy-btn" onclick="cp('no-u3',this)">Filter by NACE + city</button></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-head"><span class="card-title">Fields available</span></div>
+    <div class="field-grid">
+      <div class="field has">✓ organisasjonsnummer</div>
+      <div class="field has">✓ navn (company name)</div>
+      <div class="field has">✓ naeringskode1/2/3 (NACE)</div>
+      <div class="field has">✓ antallAnsatte (employee count)</div>
+      <div class="field has">✓ forretningsadresse (address)</div>
+      <div class="field has">✓ organisasjonsform (legal form)</div>
+      <div class="field has">✓ registreringsdato (reg. date)</div>
+      <div class="field has">✓ registrertIMvaregisteret (VAT)</div>
+      <div class="field has">✓ konkurs (bankruptcy flag)</div>
+      <div class="field has">✓ underAvvikling (liquidation)</div>
+      <div class="field has">✓ stiftelsesdato (founded)</div>
+      <div class="field has">✓ hjemmeside (website)</div>
+      <div class="field no">✗ Financial statements</div>
+      <div class="field no">✗ Shareholders / UBO</div>
+    </div>
+    <span class="toggle" id="no-tog" onclick="tog('no-ex','no-tog')">▶ Show real JSON output</span>
+    <div class="code hidden" id="no-ex">{
+  <span class="key">"organisasjonsnummer"</span>: <span class="val">"112233445"</span>,
+  <span class="key">"navn"</span>: <span class="val">"SESAM STASJON AS"</span>,
+  <span class="key">"organisasjonsform"</span>: {
+    <span class="key">"kode"</span>: <span class="val">"AS"</span>,           <span class="comment">// Aksjeselskap = Ltd</span>
+    <span class="key">"beskrivelse"</span>: <span class="val">"Aksjeselskap"</span>
+  },
+  <span class="key">"naeringskode1"</span>: {
+    <span class="key">"kode"</span>: <span class="val">"52.292"</span>,       <span class="comment">// NACE code — native in every response</span>
+    <span class="key">"beskrivelse"</span>: <span class="val">"Skipsmegling"</span>
+  },
+  <span class="key">"naeringskode2"</span>: {              <span class="comment">// Secondary NACE (up to 3 total)</span>
+    <span class="key">"kode"</span>: <span class="val">"70.100"</span>,
+    <span class="key">"beskrivelse"</span>: <span class="val">"Hovedkontortjenester"</span>
+  },
+  <span class="key">"antallAnsatte"</span>: <span class="num">50</span>,
+  <span class="key">"registreringsdatoEnhetsregisteret"</span>: <span class="val">"2017-10-20"</span>,
+  <span class="key">"stiftelsesdato"</span>: <span class="val">"1967-01-10"</span>,
+  <span class="key">"registrertIMvaregisteret"</span>: <span class="bool">true</span>,
+  <span class="key">"konkurs"</span>: <span class="bool">false</span>,
+  <span class="key">"underAvvikling"</span>: <span class="bool">false</span>,
+  <span class="key">"hjemmeside"</span>: <span class="val">"www.sesam.no"</span>,
+  <span class="key">"forretningsadresse"</span>: {
+    <span class="key">"land"</span>: <span class="val">"Norge"</span>,
+    <span class="key">"postnummer"</span>: <span class="val">"0101"</span>,
+    <span class="key">"poststed"</span>: <span class="val">"OSLO"</span>,
+    <span class="key">"adresse"</span>: [<span class="val">"Tyvholmen 1"</span>],
+    <span class="key">"kommune"</span>: <span class="val">"OSLO"</span>,
+    <span class="key">"kommunenummer"</span>: <span class="val">"0301"</span>
+  }
+}</div>
+  </div>
+</div>
+
+<!-- DENMARK -->
+<div id="dk" class="country">
+  <div class="card">
+    <div class="card-head">
+      <span class="badge badge-warn">Free — Credentials required (email for free access)</span>
+      <span class="card-title">Denmark — CVR Virk</span>
+    </div>
+    <div class="card-body">
+      <p>Elasticsearch-based API (POST queries with JSON body). Richest data of all Nordics — includes company purpose text, phone, email, website, and full ownership history. 2.2M+ companies. Contact <strong>cvrselvbetjening@erst.dk</strong> for free credentials.</p>
+      <div class="url-box"><span id="dk-u1">http://distribution.virk.dk/cvr-permanent/virksomhed/_search</span><button class="copy-btn" onclick="cp('dk-u1',this)">Copy endpoint</button></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-head"><span class="card-title">Fields available</span></div>
+    <div class="field-grid">
+      <div class="field has">✓ cvrNummer</div>
+      <div class="field has">✓ navn (name + history)</div>
+      <div class="field has">✓ hovedbranche (NACE code)</div>
+      <div class="field has">✓ address (street level)</div>
+      <div class="field has">✓ virksomhedsform (legal form)</div>
+      <div class="field has">✓ virksomhedsstatus (status)</div>
+      <div class="field has">✓ telefonnummer</div>
+      <div class="field has">✓ email + website</div>
+      <div class="field has">✓ formaal (company purpose text)</div>
+      <div class="field has">✓ stiftelsesdato (founded)</div>
+      <div class="field has">✓ Board members + roles</div>
+      <div class="field has">✓ antal ansatte (employees)</div>
+      <div class="field has">✓ Ownership (5%+ threshold)</div>
+      <div class="field has">✓ Annual accounts (PDF links)</div>
+    </div>
+    <span class="toggle" id="dk-tog" onclick="tog('dk-ex','dk-tog')">▶ Show real JSON output</span>
+    <div class="code hidden" id="dk-ex">{
+  <span class="key">"cvr"</span>: <span class="num">36890266</span>,
+  <span class="key">"name"</span>: <span class="val">"RK FOTO APS"</span>,
+  <span class="key">"status"</span>: <span class="val">"NORMAL"</span>,
+  <span class="key">"phone"</span>: <span class="val">"61331031"</span>,
+  <span class="key">"email"</span>: <span class="val">"rk@kongsgaardfoto.dk"</span>,
+  <span class="key">"website"</span>: <span class="val">"www.kongsgaardfoto.dk"</span>,
+  <span class="key">"purpose"</span>: <span class="val">"Selskabets formål er at drive virksomhed
+   med fotografisk virksomhed og dermed beslægtet."</span>,
+  <span class="key">"lifeTime"</span>: { <span class="key">"from"</span>: <span class="val">"2015-05-04"</span>, <span class="key">"to"</span>: <span class="bool">null</span> },
+  <span class="key">"industrycode"</span>: <span class="num">742000</span>,         <span class="comment">// NACE-aligned branchekode</span>
+  <span class="key">"industrydesc"</span>: <span class="val">"Fotografisk virksomhed"</span>,
+  <span class="key">"companycode"</span>: <span class="num">80</span>,              <span class="comment">// 80 = ApS (Ltd)</span>
+  <span class="key">"companydesc"</span>: <span class="val">"Anpartsselskab"</span>,
+  <span class="key">"address"</span>: {
+    <span class="key">"street"</span>: <span class="val">"Mejerivej 15"</span>,
+    <span class="key">"postalCode"</span>: <span class="num">4700</span>,
+    <span class="key">"city"</span>: <span class="val">"Næstved"</span>,
+    <span class="key">"municipality"</span>: { <span class="key">"name"</span>: <span class="val">"NÆSTVED"</span> }
+  },
+  <span class="key">"management"</span>: [{
+    <span class="key">"name"</span>: <span class="val">"Anders And"</span>,
+    <span class="key">"role"</span>: <span class="val">"Bestyrelsesmedlem"</span>,
+    <span class="key">"from"</span>: <span class="val">"2015-04-15"</span>
+  }],
+  <span class="key">"ownership"</span>: [{           <span class="comment">// owners above 5% threshold</span>
+    <span class="key">"name"</span>: <span class="val">"EJERSELSKABET APS"</span>,
+    <span class="key">"ownership"</span>: { <span class="key">"from"</span>: <span class="num">0.05</span>, <span class="key">"to"</span>: <span class="num">0.09999</span> }
+  }]
+}</div>
+    <div class="card-body" style="border-top:0.5px solid #e0e0de">
+      <p><strong>Example: filter by NACE + status + city</strong></p>
+      <div class="code" style="margin:0">POST /cvr-permanent/virksomhed/_search
+{
+  "query": { "bool": { "must": [
+    { "term": { "Vrvirksomhed.hovedbranche.branchekode": "620100" }},
+    { "term": { "Vrvirksomhed.virksomhedsstatus.status": "NORMAL" }},
+    { "term": { "Vrvirksomhed.beliggenhedsadresse.kommune.kommuneKode": 101 }}
+  ]}}
+}</div>
+    </div>
+  </div>
+</div>
+
+<!-- FINLAND -->
+<div id="fi" class="country">
+  <div class="card">
+    <div class="card-head">
+      <span class="badge badge-green">✓ Free — No account, no key</span>
+      <span class="card-title">Finland — PRH / YTJ open data</span>
+    </div>
+    <div class="card-body">
+      <p>Free REST API, no authentication. Unique bonus: <strong>digital financial statements (P&L + balance sheet)</strong> via iXBRL for companies that file digitally. Full bulk JSON download of all companies available. Licence: CC BY 4.0.</p>
+      <div class="url-box"><span id="fi-u1">https://avoindata.prh.fi/opendata-ytj-api/v3/companies?businessId=0116297-6</span><button class="copy-btn" onclick="cp('fi-u1',this)">Lookup by ID</button></div>
+      <div class="url-box"><span id="fi-u2">https://avoindata.prh.fi/opendata-ytj-api/v3/companies?name=Nokia&mainBusinessLine=62010</span><button class="copy-btn" onclick="cp('fi-u2',this)">Filter by name + TOL</button></div>
+      <div class="url-box"><span id="fi-u3">https://avoindata.prh.fi/opendata-ytj-api/v3/financial-statements?businessId=0116297-6</span><button class="copy-btn" onclick="cp('fi-u3',this)">Financials endpoint</button></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-head"><span class="card-title">Fields available</span></div>
+    <div class="field-grid">
+      <div class="field has">✓ businessId (Y-tunnus)</div>
+      <div class="field has">✓ names (current + all history)</div>
+      <div class="field has">✓ mainBusinessLine (TOL/NACE)</div>
+      <div class="field has">✓ addresses (registered + visiting)</div>
+      <div class="field has">✓ companyForm (OY, OYJ etc)</div>
+      <div class="field has">✓ registrationDate</div>
+      <div class="field has">✓ liquidationDate</div>
+      <div class="field has">✓ tradeRegisterStatus</div>
+      <div class="field has">✓ euId (EUID)</div>
+      <div class="field has">✓ registeredEntries history</div>
+      <div class="field has">✓ P&L + balance sheet (iXBRL)</div>
+      <div class="field has">✓ VAT registration status</div>
+      <div class="field no">✗ phone / email</div>
+      <div class="field no">✗ Shareholders</div>
+    </div>
+    <span class="toggle" id="fi-tog" onclick="tog('fi-ex','fi-tog')">▶ Show real JSON output</span>
+    <div class="code hidden" id="fi-ex">{
+  <span class="key">"businessId"</span>: { <span class="key">"value"</span>: <span class="val">"0116297-6"</span> },
+  <span class="key">"euId"</span>: { <span class="key">"value"</span>: <span class="val">"FIFPRO.0116297-6"</span> },
+  <span class="key">"names"</span>: [{
+    <span class="key">"value"</span>: <span class="val">"Nokia Oyj"</span>,
+    <span class="key">"registrationDate"</span>: <span class="val">"1967-03-01"</span>,
+    <span class="key">"endDate"</span>: <span class="bool">null</span>          <span class="comment">// null = currently active name</span>
+  }],
+  <span class="key">"mainBusinessLine"</span>: {
+    <span class="key">"code"</span>: <span class="val">"26200"</span>,          <span class="comment">// TOL 2008 = Statistics Finland NACE</span>
+    <span class="key">"description"</span>: <span class="val">"Tietokoneiden valmistus"</span>
+  },
+  <span class="key">"companyForm"</span>: <span class="val">"OYJ"</span>,           <span class="comment">// Public limited company</span>
+  <span class="key">"registrationDate"</span>: <span class="val">"1967-03-01"</span>,
+  <span class="key">"addresses"</span>: [{
+    <span class="key">"street"</span>: <span class="val">"Karakaari 7"</span>,
+    <span class="key">"postCode"</span>: <span class="val">"02610"</span>,
+    <span class="key">"city"</span>: <span class="val">"Espoo"</span>,
+    <span class="key">"country"</span>: <span class="val">"FI"</span>
+  }],
+  <span class="key">"tradeRegisterStatus"</span>: <span class="val">"REGISTERED"</span>,
+  <span class="key">"liquidationDate"</span>: <span class="bool">null</span>,
+
+  <span class="comment">// Separate endpoint: financial-statements</span>
+  <span class="key">"revenue"</span>: <span class="num">22321000000</span>,      <span class="comment">// EUR (when filed digitally)</span>
+  <span class="key">"operatingResult"</span>: <span class="num">2145000000</span>,
+  <span class="key">"totalAssets"</span>: <span class="num">17832000000</span>,
+  <span class="key">"equity"</span>: <span class="num">8765000000</span>
+}</div>
+  </div>
+</div>
+
+<!-- SWEDEN -->
+<div id="se" class="country">
+  <div class="card">
+    <div class="card-head">
+      <span class="badge badge-warn">Mixed — SCB free, Bolagsverket requires contract</span>
+      <span class="card-title">Sweden — SCB (free) + Bolagsverket (paid)</span>
+    </div>
+    <div class="card-body">
+      <p>Two sources. <strong>Bolagsverket</strong> (official registry) requires a contract + SEK 6,250 upfront fee. <strong>Statistics Sweden (SCB)</strong> is free and includes SNI/NACE codes and monthly updated CSVs per canton. Use SCB for bulk free work, Bolagsverket for directors/financials.</p>
+      <div class="url-box"><span id="se-u1">https://data-bs.ch/stata/zefix_handelsregister/all_cantons/companies_ZH.csv</span><button class="copy-btn" onclick="cp('se-u1',this)">Canton CSV (free)</button></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-head"><span class="card-title">Fields available (Bolagsverket structured API)</span></div>
+    <div class="field-grid">
+      <div class="field has">✓ organisationsnummer</div>
+      <div class="field has">✓ companyName</div>
+      <div class="field has">✓ industryCode (SNI = NACE)</div>
+      <div class="field has">✓ industryText</div>
+      <div class="field has">✓ legalGroupCode (AB, HB etc)</div>
+      <div class="field has">✓ statusCode / statusText</div>
+      <div class="field has">✓ numberEmployeesInterval</div>
+      <div class="field has">✓ address + town + county</div>
+      <div class="field has">✓ vatReg + vatRegDate</div>
+      <div class="field has">✓ companyRegistrationDate</div>
+      <div class="field has">✓ topDirectorName + function</div>
+      <div class="field has">✓ changeDate (last updated)</div>
+      <div class="field no">✗ Shareholders (coming soon)</div>
+      <div class="field no">✗ Financials (PDF only via web)</div>
+    </div>
+    <span class="toggle" id="se-tog" onclick="tog('se-ex','se-tog')">▶ Show real JSON output</span>
+    <div class="code hidden" id="se-ex">{
+  <span class="comment">// Bolagsverket structured API response</span>
+  <span class="key">"companyId"</span>: <span class="val">"5565926911"</span>,
+  <span class="key">"companyName"</span>: <span class="val">"Storbolaget AB"</span>,
+  <span class="key">"companyRegistrationDate"</span>: <span class="val">"20161212"</span>,
+  <span class="key">"legalGroupCode"</span>: <span class="val">"AB"</span>,          <span class="comment">// = Ltd</span>
+  <span class="key">"legalGroupText"</span>: <span class="val">"Privat aktiebolag"</span>,
+  <span class="key">"industryCode"</span>: <span class="val">"16292"</span>,          <span class="comment">// SNI = NACE Rev.2 aligned</span>
+  <span class="key">"industryText"</span>: <span class="val">"Övrig trävaruindustri"</span>,
+  <span class="key">"statusCode"</span>: <span class="val">"100"</span>,
+  <span class="key">"statusTextDetailed"</span>: <span class="val">"Aktivt"</span>,
+  <span class="key">"numberEmployeesInterval"</span>: <span class="val">"1-4 anställda"</span>,
+  <span class="key">"vatReg"</span>: <span class="bool">true</span>,
+  <span class="key">"vatRegDate"</span>: <span class="val">"2016-01"</span>,
+  <span class="key">"address"</span>: <span class="val">"Långgatan 26"</span>,
+  <span class="key">"town"</span>: <span class="val">"BOLLNÄS"</span>,
+  <span class="key">"county"</span>: <span class="val">"GÄVLEBORG"</span>,
+  <span class="key">"topDirectorName"</span>: <span class="val">"Läppen, Jan"</span>,
+  <span class="key">"topDirectorFunction"</span>: <span class="val">"Ledamot"</span>,
+  <span class="key">"changeDate"</span>: <span class="val">"2024-11-05"</span>
+}</div>
+  </div>
+</div>
+
+<!-- COMPARE -->
+<div id="compare" class="country">
+  <div class="card">
+    <div class="card-head"><span class="card-title">Side-by-side comparison</span></div>
+    <div style="overflow-x:auto">
+    <table class="summary-table">
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th>🇳🇴 Norway BRREG</th>
+          <th>🇩🇰 Denmark CVR</th>
+          <th>🇫🇮 Finland PRH</th>
+          <th>🇸🇪 Sweden SCB/Bolag.</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>API type</td><td>REST JSON</td><td>Elasticsearch REST</td><td>REST JSON</td><td>REST JSON</td></tr>
+        <tr><td>Account needed</td><td class="yes">None</td><td class="part">Free credentials (email)</td><td class="yes">None</td><td class="part">SCB free / Bolag. contract</td></tr>
+        <tr><td>Cost</td><td class="yes">Free</td><td class="yes">Free</td><td class="yes">Free</td><td class="part">SCB free / Bolag. from SEK 6,250</td></tr>
+        <tr><td>Bulk download</td><td class="yes">✓ CSV + JSON</td><td class="yes">✓ Scroll API</td><td class="yes">✓ Full JSON file</td><td class="part">✓ SCB monthly CSV</td></tr>
+        <tr><td>Update frequency</td><td>Daily</td><td>Daily</td><td>Daily</td><td>Monthly (SCB)</td></tr>
+        <tr><td>NACE / industry codes</td><td class="yes">✓ Up to 3 NACE codes</td><td class="yes">✓ branchekode (NACE)</td><td class="yes">✓ TOL 2008 (= NACE)</td><td class="yes">✓ SNI (= NACE Rev.2)</td></tr>
+        <tr><td>Employee count</td><td class="yes">✓ Exact number</td><td class="yes">✓ Exact number</td><td class="no-cell">✗ Not in open data</td><td class="yes">✓ Band (1-4, 5-9 etc)</td></tr>
+        <tr><td>Phone / email</td><td class="part">⚠ Website only</td><td class="yes">✓ Phone + email</td><td class="no-cell">✗ Not included</td><td class="no-cell">✗ Not in open data</td></tr>
+        <tr><td>Company purpose text</td><td class="no-cell">✗ Not in open data</td><td class="yes">✓ Full text (formaal)</td><td class="no-cell">✗ Not in open data</td><td class="part">⚠ Bolagsverket only</td></tr>
+        <tr><td>Directors / management</td><td class="part">⚠ Authorised API only</td><td class="yes">✓ Names + roles + dates</td><td class="no-cell">✗ Not in open data</td><td class="part">⚠ Bolagsverket only</td></tr>
+        <tr><td>Ownership / shareholders</td><td class="no-cell">✗ Authorised API only</td><td class="yes">✓ 5%+ threshold</td><td class="no-cell">✗ Not in open data</td><td class="no-cell">✗ Coming 2025</td></tr>
+        <tr><td>Financial statements</td><td class="no-cell">✗</td><td class="part">⚠ PDF links only</td><td class="yes">✓ P&L + balance sheet (iXBRL)</td><td class="no-cell">✗ (Bolag. has PDFs)</td></tr>
+        <tr><td>Bankruptcy / liquidation flag</td><td class="yes">✓ konkurs field</td><td class="yes">✓ statstidende status</td><td class="yes">✓ liquidationDate</td><td class="yes">✓ statusCode</td></tr>
+        <tr><td>Licence</td><td>NLOD (open)</td><td>Open</td><td>CC BY 4.0</td><td>SCB: open / Bolag: licence</td></tr>
+        <tr><td>English interface</td><td class="yes">✓ Full English</td><td class="yes">✓ Full English</td><td class="yes">✓ Full English</td><td class="part">⚠ Partial</td></tr>
+        <tr><td>Coverage</td><td>~1M entities</td><td>2.2M companies</td><td>~700K companies</td><td>~600K companies</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+</div>
+
+<script>
+function sw(id,btn){
+  document.querySelectorAll('.country').forEach(c=>c.classList.remove('visible'));
+  document.getElementById(id).classList.add('visible');
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+}
+function tog(id,togId){
+  var e=document.getElementById(id);
+  var t=document.getElementById(togId);
+  if(e.classList.contains('hidden')){
+    e.classList.remove('hidden');
+    t.textContent='▼ Hide example';
+  } else {
+    e.classList.add('hidden');
+    t.textContent='▶ Show real JSON output';
+  }
+}
+function cp(id,btn){
+  navigator.clipboard.writeText(document.getElementById(id).textContent.trim()).then(()=>{
+    var orig=btn.textContent;
+    btn.textContent='Copied!';
+    setTimeout(()=>btn.textContent=orig,1500);
+  });
+}
+</script>
+</body>
+</html>
